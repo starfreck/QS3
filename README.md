@@ -2,6 +2,8 @@
 
 QS3 is a small and lightweight web app written in PHP. The reason for choosing PHP was simple but crucial. It works everywhere, from free hosting to shared hosting to Cloud VMs (i.e. EC2 etc.), and it is very simple.
 
+## 📕 API Docs
+- [https://github.com/starfreck/QS3/wiki/QS3-API-Documentation](https://github.com/starfreck/QS3/wiki/QS3-API-Documentation)
 ## ⚙️ Setup Instructions
 
 1. 🛠️ **Environment Configuration**
