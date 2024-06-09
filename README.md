@@ -9,7 +9,8 @@ QS3 is a small and lightweight web app written in PHP. The reason for choosing P
    Configure the following options in your `.env` file at the root of your project:
 
    ```env    
-    
+    NAME=QS3                             # Server nickname (use as metadata)
+    STORAGE_SIZE=5GB                     # Server storage size (use as metadata)
     TARGET_DIR=uploads/                  # Directory where the uploaded files will be stored
     MAX_FILE_SIZE=104857600              # Maximum file size for uploads (in bytes)
     BASE_URL=https://sample-url.com/     # Sample Base URL of the application
@@ -47,12 +48,12 @@ QS3 is a small and lightweight web app written in PHP. The reason for choosing P
         
         # Disable access to uploads/ and returns a 404 error
         RewriteRule ^uploads/(.*)$ - [R=404,L]
-        </IfModule>    
-        
-        # Allow access only for index.php
-        <Files "index.php">
-            Allow from all
-        </Files>
+    </IfModule>    
+    
+    # Allow access only for index.php
+    <Files "index.php">
+        Allow from all
+    </Files>
     ```
 4. 🔧 **.user.ini Configuration**
 
