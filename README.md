@@ -26,25 +26,33 @@ QS3 is a small and lightweight web app written in PHP. The reason for choosing P
     Here's an example of what your .htaccess file might look like:
     
     ```apache
+    # PHP Settings
+    php_value display_errors On
+    php_value mbstring.http_input auto
+    php_value date.timezone America/New_York
+    
     # Prevent directory listing
     Options -Indexes
-
+    
     <IfModule mod_rewrite.c>
         RewriteEngine On
+        
         # Allow Authorization Header in HTTP
         RewriteCond %{HTTP:Authorization} ^(.*)
         RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
-        # Force HTTPS
-        RewriteCond %{HTTPS} !=on
-        RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+        
+        # Force HTTPS (Only enable if you have SSL setup)
+        # RewriteCond %{HTTPS} !=on
+        # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+        
         # Disable access to uploads/ and returns a 404 error
         RewriteRule ^uploads/(.*)$ - [R=404,L]
-    </IfModule>    
-
-    # Allow access only for index.php
-    <Files "index.php">
-        Allow from all
-    </Files>
+        </IfModule>    
+        
+        # Allow access only for index.php
+        <Files "index.php">
+            Allow from all
+        </Files>
     ```
 4. 🔧 **.user.ini Configuration**
 
@@ -53,10 +61,11 @@ QS3 is a small and lightweight web app written in PHP. The reason for choosing P
     ```ini
     upload_max_filesize = 200M
     post_max_size = 200M
+    error_reporting = E_ALL | E_WARNING
     memory_limit = 768M
     max_execution_time = 360
     max_input_vars = 600
-    display_errors = off
+    display_errors = on
     ```
 ## ⚠️ Important Note
 

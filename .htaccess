@@ -1,0 +1,27 @@
+# PHP Settings
+php_value display_errors On
+php_value mbstring.http_input auto
+php_value date.timezone America/New_York
+
+# Prevent directory listing
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Allow Authorization Header in HTTP
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+    
+    # Force HTTPS (Only enable if you have SSL setup)
+    # RewriteCond %{HTTPS} !=on
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Disable access to uploads/ and returns a 404 error
+    RewriteRule ^uploads/(.*)$ - [R=404,L]
+</IfModule>    
+
+# Allow access only for index.php
+<Files "index.php">
+    Allow from all
+</Files>
