@@ -68,9 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['filename'])) {
         $filename = $_GET['filename'];
         $file_path = $target_dir . $filename;
-        $content_type = get_content_type($filename);
 
         if (file_exists($file_path)) {
+            $content_type = get_content_type($file_path);
             header('Content-Description: File Transfer');
             header('Content-Type: ' . $content_type);
             header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
