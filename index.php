@@ -33,8 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (!isset($_POST['method']) || $_POST
             send_json_response(413, "File size exceeds maximum limit.");
             exit;
         }
-
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        // Get the file name from the request
+        $filename = $_FILES["fileToUpload"]["name"];
+        // if the file name is explicitly specified in request use it
+        if(isset($_POST['filename'])){
+            $filename = $_POST['filename'];
+        }
+        $target_file = $target_dir . basename($filename);
         $moved = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
         if ($moved) {
             $file_url = $base_url . "?" . http_build_query(["filename" => basename($target_file)]);
@@ -70,10 +75,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $file_path = $target_dir . $filename;
 
         if (file_exists($file_path)) {
+            $new_filename = basename($file_path);
+            // Update filename based on incoming "as" param
+            if (isset($_GET['as'])) {
+                $new_filename = $_GET['as'];
+            }
             $content_type = get_content_type($file_path);
             header('Content-Description: File Transfer');
             header('Content-Type: ' . $content_type);
-            header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
+            header('Content-Disposition: attachment; filename="' . $new_filename . '"');
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
