@@ -30,9 +30,10 @@ QS3 is a small and lightweight web app written in PHP. The reason for choosing P
     
     ```apache
     # PHP Settings
-    php_value display_errors On
-    php_value mbstring.http_input auto
-    php_value date.timezone America/New_York
+    # Note: These options are only supported by some shared hosting
+    # php_value display_errors On
+    # php_value mbstring.http_input auto
+    # php_value date.timezone America/New_York
     
     # Prevent directory listing
     Options -Indexes
