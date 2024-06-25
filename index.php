@@ -35,9 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (!isset($_POST['method']) || $_POST
         }
         // Get the file name from the request
         $filename = $_FILES["fileToUpload"]["name"];
-        // if the file name is explicitly specified in request use it
-        if(isset($_POST['filename'])){
-            $filename = $_POST['filename'];
+        // if the file name is explicitly specified in request headers use it
+        $headers = getallheaders();
+        if (isset($headers['X-Filename'])) {
+            $filename = $headers['X-Filename'];
         }
         $target_file = $target_dir . basename($filename);
         $moved = move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
@@ -76,9 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         if (file_exists($file_path)) {
             $new_filename = basename($file_path);
-            // Update filename based on incoming "as" param
-            if (isset($_GET['as'])) {
-                $new_filename = $_GET['as'];
+            // Update filename as specified in request headers
+            $headers = getallheaders();
+            if (isset($headers['X-Filename'])) {
+                $new_filename = $headers['X-Filename'];
             }
             $content_type = get_content_type($file_path);
             header('Content-Description: File Transfer');
